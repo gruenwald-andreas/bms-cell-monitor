@@ -8,27 +8,20 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
-    container:
-      image: ubuntu:24.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
 
-      - name: Install Dependencies
-        run: |
-          apt-get update && apt-get install -y build-essential cmake git cppcheck
+      - name: Build Docker Environment
+        run: docker build -t bms-ci-env .
 
-      - name: Static Code Analysis (Cppcheck)
+      - name: Run Static Analysis, Build & Unit Tests in Docker
         run: |
-          cppcheck --enable=warning,style,performance --error-exitcode=1 -I include src/
-
-      - name: Configure & Build with CMake
-        run: |
-          cmake -B build -DCMAKE_BUILD_TYPE=Release
-          cmake --build build
-
-      - name: Run Unit Tests
-        run: |
-          ctest --test-dir build --output-on-failure
+          docker run --rm -v "${{ github.workspace }}:/workspace" bms-ci-env bash -c "
+            cppcheck --enable=warning,style,performance --error-exitcode=1 -I include src/ &&
+            cmake -B build-ci -DCMAKE_BUILD_TYPE=Release &&
+            cmake --build build-ci &&
+            ctest --test-dir build-ci --output-on-failure
+          "
