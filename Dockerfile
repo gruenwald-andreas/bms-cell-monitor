@@ -1,9 +1,9 @@
 FROM ubuntu:24.04
 
-# Zeitzonen-Abfrage beim Installieren verhindern
+# Prevent interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Compiler, CMake, Git und statische Code-Analyse installieren
+# Install compiler toolchain, CMake, Git, and static code analyzer
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \

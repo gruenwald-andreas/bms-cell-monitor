@@ -10,7 +10,7 @@ namespace bms {
 
 struct CellData {
     uint16_t voltageMv{0};
-    int16_t temperatureDeciC{0}; // z. B. 250 = 25.0 °C
+    int16_t temperatureDeciC{0}; // e.g., 250 = 25.0 °C
 };
 
 class CellMonitor {
