@@ -1,8 +1,8 @@
 # Smart-BMS Cell Monitor & Embedded CI/CD Pipeline
 
-![CI Build Status](https://github.com)
-![C++ Standard](https://shields.io)
-![License](https://shields.io)
+![CI Build Status](https://github.com/Gruendi/bms-cell-monitor/actions/workflows/ci.yml/badge.svg)
+![C++ Standard](https://img.shields.io/badge/C%2B%2B-17-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 A hardware-independent Battery Management System (BMS) cell monitoring library written in **Modern C++17**, accompanied by an automated **Docker & GitHub Actions CI/CD pipeline**, static code analysis (`cppcheck`), and unit tests using **GoogleTest / GoogleMock**.
 
@@ -83,7 +83,7 @@ To guarantee an identical build environment matching the CI pipeline:
 docker build -t bms-ci-env .
 
 # Run static analysis, build, and tests inside the container
-docker run --rm -v "\$(pwd):/workspace" bms-ci-env bash -c \
+docker run --rm -v "$(pwd):/workspace" bms-ci-env bash -c \
   "cppcheck --enable=warning,style,performance --error-exitcode=1 -I include src/ && \
    cmake -B build-docker && cmake --build build-docker && \
    ctest --test-dir build-docker --output-on-failure"
