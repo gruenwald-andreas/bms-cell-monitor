@@ -1,2 +1,4 @@
 build/
+build-docker/
 .vscode/
+_notes.md
